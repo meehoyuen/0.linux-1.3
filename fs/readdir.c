@@ -110,7 +110,7 @@ static int filldir(void * __buf, const char * name, int namlen, off_t offset, in
 	put_user(reclen, &dirent->d_reclen);
 	memcpy_tofs(dirent->d_name, name, namlen);
 	put_user(0, dirent->d_name + namlen);
-	((char *) dirent) += reclen;
+	dirent = (char *) dirent + reclen;
 	buf->current_dir = dirent;
 	buf->count -= reclen;
 	return 0;
