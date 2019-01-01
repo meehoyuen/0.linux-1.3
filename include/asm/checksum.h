@@ -52,7 +52,7 @@ static inline unsigned short ip_fast_csum(unsigned char * iph,
 	   "addl 4(%1), %0\n\t"
 	   "adcl 8(%1), %0\n\t"
 	   "adcl 12(%1), %0\n\t"
-"1:	    adcl 16(%1), %0\b\t"
+"1:	    adcl 16(%1), %0\n\t"
 	   "lea 4(%1), %1\n\t"
 	   "decl %2\n\t"
 	   "jne	1b\n\t"
@@ -81,17 +81,15 @@ static inline unsigned short int csum_tcpudp_magic(unsigned long saddr,
 						   unsigned short len,
 						   unsigned short proto,
 						   unsigned int sum) {
-    __asm__("
-	addl %1, %0
-	adcl %4, %0
-	adcl %5, %0
-	adcl $0, %0
-	movl %0, %1
-	shrl $16, %1
-	addw %w1, %w0
-	adcl $0, %0
-	notl %0
-	"
+    __asm__("addl %1, %0\n\t"
+	"adcl %4, %0\n\t"
+	"adcl %5, %0\n\t"
+	"adcl $0, %0\n\t"
+	"movl %0, %1\n\t"
+	"shrl $16, %1\n\t"
+	"addw %w1, %w0\n\t"
+	"adcl $0, %0\n\t"
+	"notl %0\n\t"
 	: "=&r" (sum), "=&r" (saddr)
 	: "0" (daddr), "1"(saddr), "r"((ntohs(len)<<16)+proto*256), "r"(sum));
 	return((unsigned short)sum);
@@ -103,10 +101,7 @@ static inline unsigned short int csum_tcpudp_magic(unsigned long saddr,
 
 static inline unsigned int csum_fold(unsigned int sum)
 {
-	__asm__("
-		addl %1, %0
-		adcl $0xffff, %0
-		"
+	__asm__("addl %1, %0; adcl $0xffff, %0"
 		: "=r" (sum)
 		: "r" (sum << 16), "0" (sum & 0xffff0000)
 	);
@@ -122,13 +117,7 @@ static inline unsigned short ip_compute_csum(unsigned char * buff, int len) {
     unsigned int sum;
 
     unsigned int scratch;
-    __asm__("
-	movl %0, %1
-	shrl $16, %1
-	addw %w1, %w0
-	adcl $0, %0
-	notl %0
-	"
+    __asm__("movl %0, %1;shrl $16, %1;addw %w1, %w0;adcl $0, %0; notl %0"
 	: "=a"(sum), "=r" (scratch)
 	: "0" (csum_partial(buff, len, 0)));
 	return(sum);

@@ -66,7 +66,7 @@ endif
 # the default of FLOPPY is used by 'build'.
 #
 
-ROOT_DEV = CURRENT
+ROOT_DEV =
 
 #
 # INSTALL_PATH specifies where to place the updated kernel and system map
@@ -87,7 +87,7 @@ SVGA_MODE=	-DSVGA_MODE=NORMAL_VGA
 # standard CFLAGS
 #
 
-CFLAGS = -Wstrict-prototypes -O2 -fomit-frame-pointer -fno-strength-reduce
+CFLAGS = -Wstrict-prototypes -O2 -fno-stack-protector -fomit-frame-pointer -fno-strength-reduce
 
 ifdef CONFIG_CPP
 CFLAGS := $(CFLAGS) -x c++

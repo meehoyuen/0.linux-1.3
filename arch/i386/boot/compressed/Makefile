@@ -16,7 +16,6 @@ CFLAGS := $(CFLAGS) -D__SMP__
 endif
 
 ifdef CONFIG_KERNEL_ELF
-TARGET=--target elf32-i386
 INPUT_DATA=input_data
 INPUT_LEN=input_len
 endif
@@ -45,16 +44,17 @@ ifdef CONFIG_KERNEL_ELF
 
 # You cannot compress a file and have the kernel uncompress it, it must
 # be stdin
-piggy.o:	$(SYSTEM)
+piggy.o:$(SYSTEM) $(ENCAPS)
 	tmppiggy=/tmp/$$$$.piggy; \
-	rm -f $$tmppiggy $$tmppiggy.gz; \
-	$(OBJDUMP) $(OBJDUMP_FLAGS) -o $(IMAGE_OFFSET) $(SYSTEM) > $$tmppiggy; \
+	rm -f $$tmppiggy $$tmppiggy.gz $$tmppiggy.lnk; \
+	$(OBJCOPY) $(SYSTEM) $$tmppiggy; \
 	gzip -f -9 < $$tmppiggy > $$tmppiggy.gz; \
-	$(ENCAPS) $(TARGET) piggy.o $$tmppiggy.gz $(INPUT_DATA) $(INPUT_LEN); \
-	rm -f $$tmppiggy $$tmppiggy.gz
+	echo "SECTIONS { .data : { input_len = .; LONG(input_data_end - input_data) input_data = .; *(.data) input_data_end = .; }}" > $$tmppiggy.lnk; \
+	$(LD) -r -o piggy.o -b binary $$tmppiggy.gz -b elf32-i386 -T $$tmppiggy.lnk; \
+	rm -f $$tmppiggy $$tmppiggy.gz $$tmppiggy.lnk
 else
 
-piggy.o:	$(SYSTEM) xtract piggyback
+piggy.o:$(SYSTEM) xtract piggyback
 		./xtract $(SYSTEM) | gzip -9 | ./piggyback > piggy.o
 
 xtract: xtract.c

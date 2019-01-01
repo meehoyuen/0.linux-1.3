@@ -8,29 +8,29 @@
 #endif
 
 #ifdef __cplusplus
-extern "C" {
+"C" {
 #endif
 
-extern char * ___strtok;
-extern char * strcpy(char *,const char *);
-extern char * strncpy(char *,const char *,size_t);
-extern char * strcat(char *, const char *);
-extern char * strncat(char *, const char *, size_t);
-extern char * strchr(const char *,int);
-extern char * strpbrk(const char *,const char *);
-extern char * strtok(char *,const char *);
-extern char * strstr(const char *,const char *);
-extern size_t strlen(const char *);
-extern size_t strnlen(const char *,size_t);
-extern size_t strspn(const char *,const char *);
-extern int strcmp(const char *,const char *);
-extern int strncmp(const char *,const char *,size_t);
+char * ___strtok;
+char * strcpy(char *,const char *);
+char * strncpy(char *,const char *,size_t);
+char * strcat(char *, const char *);
+char * strncat(char *, const char *, size_t);
+char * strchr(const char *,int);
+char * strpbrk(const char *,const char *);
+char * strtok(char *,const char *);
+char * strstr(const char *,const char *);
+size_t strlen(const char *);
+size_t strnlen(const char *,size_t);
+size_t strspn(const char *,const char *);
+int strcmp(const char *,const char *);
+int strncmp(const char *,const char *,size_t);
 
-extern void * memset(void *,int,size_t);
-extern void * memcpy(void *,const void *,size_t);
-extern void * memmove(void *,const void *,size_t);
-extern void * memscan(void *,int,size_t);
-extern int memcmp(const void *,const void *,size_t);
+void * memset(void *,int ,size_t);
+void * memcpy(void *,const void *,size_t);
+void * memmove(void *,const void *,size_t);
+void * memscan(void *,int,size_t);
+int memcmp(const void *,const void *,size_t);
 
 /*
  * Include machine specific inline routines

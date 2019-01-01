@@ -107,7 +107,7 @@ static uch *output_data;
 static unsigned long output_ptr = 0;
 
  
-static void *malloc(int size);
+static void *zmalloc(int size);
 static void free(void *where);
 static void error(char *m);
 static void gzip_mark(void **);
@@ -134,7 +134,7 @@ static int lines, cols;
 
 #include "../../../../lib/inflate.c"
 
-static void *malloc(int size)
+static void *zmalloc(int size)
 {
 	void *p;
 

@@ -18,7 +18,7 @@ endif
 
 zImage: $(CONFIGURE) bootsect setup compressed/vmlinux tools/build
 ifdef CONFIG_KERNEL_ELF
-	$(OBJDUMP) $(OBJDUMP_FLAGS) -o $(ZIMAGE_OFFSET) compressed/vmlinux > compressed/vmlinux.out
+	$(OBJCOPY) compressed/vmlinux compressed/vmlinux.out
 	tools/build bootsect setup compressed/vmlinux.out $(ROOT_DEV) > zImage
 else
 	tools/build bootsect setup compressed/vmlinux $(ROOT_DEV) > zImage
@@ -27,7 +27,7 @@ endif
 
 bzImage: $(CONFIGURE) bbootsect setup compressed/bvmlinux tools/bbuild
 ifdef CONFIG_KERNEL_ELF
-	$(OBJDUMP) $(OBJDUMP_FLAGS) -o $(IMAGE_OFFSET) compressed/bvmlinux > compressed/bvmlinux.out
+	$(OBJCOPY) compressed/bvmlinux compressed/bvmlinux.out
 	tools/bbuild bbootsect setup compressed/bvmlinux.out $(ROOT_DEV) > bzImage
 else
 	tools/bbuild bbootsect setup compressed/bvmlinux $(ROOT_DEV) > bzImage

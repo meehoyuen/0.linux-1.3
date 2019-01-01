@@ -328,7 +328,7 @@ static __inline__ struct device * get_gw_dev(__u32 gw)
  *	masks judging by the destination address and our device netmask.
  */
  
-static __u32 unsigned long default_mask(__u32 dst)
+static __u32 default_mask(__u32 dst)
 {
 	dst = ntohl(dst);
 	if (IN_CLASSA(dst))

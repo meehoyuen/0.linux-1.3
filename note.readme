@@ -1,0 +1,8 @@
+build on ubuntu 12.04.5
+
+sudo apt-get install gawk
+cp arch/i386/defconfig .config
+make oldconfig
+make depend
+sed -i "s/-m486//g" `find . -type f`
+make -s 

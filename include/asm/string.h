@@ -19,8 +19,7 @@ void * __memcpy(void * to, const void * from, size_t n);
 void * __constant_memcpy(void * to, const void * from, size_t n);
 void * memmove(void * dest,const void * src, size_t n);
 void * memchr(const void * cs,int c,size_t count);
-void * __constant_c_memset(void * s, unsigned long c, size_t count);
+void * memset(void * s,int c, size_t count);
 size_t strnlen(const char * s, size_t count);
-void * __constant_c_and_count_memset(void * s, unsigned long pattern, size_t count);
 void * memscan(void * addr, int c, size_t size);
 #endif

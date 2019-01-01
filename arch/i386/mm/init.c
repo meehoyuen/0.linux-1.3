@@ -53,11 +53,10 @@ pte_t * __bad_pagetable(void)
 {
 	extern char empty_bad_page_table[PAGE_SIZE];
 
-	__asm__ __volatile__("cld ; rep ; stosl":
+	__asm__ __volatile__("pushl %%ecx;pushl %%edi;cld ; rep ; stosl;popl %%edi;popl %%ecx;":
 		:"a" (pte_val(BAD_PAGE)),
 		 "D" ((long) empty_bad_page_table),
-		 "c" (PAGE_SIZE/4)
-		:"di","cx");
+		 "c" (PAGE_SIZE/4));
 	return (pte_t *) empty_bad_page_table;
 }
 
@@ -65,11 +64,10 @@ pte_t __bad_page(void)
 {
 	extern char empty_bad_page[PAGE_SIZE];
 
-	__asm__ __volatile__("cld ; rep ; stosl":
+	__asm__ __volatile__("pushl %%ecx;pushl %%edi;cld ; rep ; stosl;popl %%edi;popl %%ecx;":
 		:"a" (0),
 		 "D" ((long) empty_bad_page),
-		 "c" (PAGE_SIZE/4)
-		:"di","cx");
+		 "c" (PAGE_SIZE/4));
 	return pte_mkdirty(mk_pte((unsigned long) empty_bad_page, PAGE_SHARED));
 }
 

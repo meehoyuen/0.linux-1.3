@@ -1588,7 +1588,7 @@ int tcp_rcv(struct sk_buff *skb, struct device *dev, struct options *opt,
 				if (tcp_check(th, len, saddr, daddr, skb->csum))
 					goto discard_it;
 			default:
-				/* CHECKSUM_UNNECESSARY */
+				break;/* CHECKSUM_UNNECESSARY */
 		}
 		sk = get_tcp_sock(saddr, th->source, daddr, th->dest);
 		if (!sk)

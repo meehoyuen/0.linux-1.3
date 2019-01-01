@@ -37,9 +37,7 @@ ifdef CONFIG_KERNEL_ELF
 
 LD=$(CROSS_COMPILE)ld -m elf_i386
 CPP=$(CC) -E -D__ELF__
-OBJDUMP =$(CROSS_COMPILE)objdump
-ENCAPS=$(CROSS_COMPILE)encaps
-OBJDUMP_FLAGS=-k -q 
+OBJCOPY=$(CROSS_COMPILE)objcopy -O binary -R .note -R .comment -S
 ZLDFLAGS=-e startup_32 
 LDFLAGS=-e stext
 ZIMAGE_OFFSET=0x1000

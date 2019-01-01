@@ -409,7 +409,7 @@ DEBG1("3 ");
         z = 1 << j;             /* table entries for j-bit table */
 
         /* allocate and link in new table */
-        if ((q = (struct huft *)malloc((z + 1)*sizeof(struct huft))) ==
+        if ((q = (struct huft *)zmalloc((z + 1)*sizeof(struct huft))) ==
             (struct huft *)NULL)
         {
           if (h)

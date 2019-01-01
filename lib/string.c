@@ -107,6 +107,15 @@ size_t strlen(const char * s)
 	return sc - s;
 }
 
+size_t strnlen(const char * s, size_t count)
+{
+	const char *sc;
+
+	for (sc = s; count>0 && *sc != '\0'; ++sc, --count)
+		/* nothing */;
+	return sc - s;
+}
+
 size_t strspn(const char *s, const char *accept)
 {
 	const char *p;
@@ -159,7 +168,7 @@ char * strtok(char * s,const char * ct)
 	return (sbegin);
 }
 
-void * memset(void * s,char c,size_t count)
+void * memset(void * s,int c,size_t count)
 {
 	char *xs = (char *) s;
 

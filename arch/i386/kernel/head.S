@@ -47,7 +47,7 @@ startup_32:
 	jmp checkCPUtype
 1:
 	lss stack_start,%esp
-#endif __SMP__
+#endif /*__SMP__*/
 /*
  * Clear BSS first so that there are no surprises...
  */
@@ -140,7 +140,7 @@ isnew:	pushl %ecx		# restore original EFLAGS
 	movb %al, %cl		# save reg for future use
 	andb $0x0f,%ah		# mask processor family
 	movb %ah,SYMBOL_NAME(x86)
-	andb $0xf0, %eax	# mask model
+	andb $0xf0, %al		# mask model
 	shrb $4, %al
 	movb %al,SYMBOL_NAME(x86_model)
 	andb $0x0f, %cl		# mask mask revision

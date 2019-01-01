@@ -31,67 +31,67 @@ unsigned int csum_partial(const unsigned char * buff, int len, unsigned int sum)
 	   * Fortunately, it is easy to convert 2-byte alignment to 4-byte
 	   * alignment for the unrolled loop.
 	   */
-	__asm__("
-	    testl $2, %%esi		# Check alignment.
-	    jz 2f			# Jump if alignment is ok.
-	    subl $2, %%ecx		# Alignment uses up two bytes.
-	    jae 1f			# Jump if we had at least two bytes.
-	    addl $2, %%ecx		# ecx was < 2.  Deal with it.
-	    jmp 4f
-1:	    movw (%%esi), %%bx
-	    addl $2, %%esi
-	    addw %%bx, %%ax
-	    adcl $0, %%eax
-2:
-	    movl %%ecx, %%edx
-	    shrl $5, %%ecx
-	    jz 2f
-	    testl %%esi, %%esi
-1:	    movl (%%esi), %%ebx
-	    adcl %%ebx, %%eax
-	    movl 4(%%esi), %%ebx
-	    adcl %%ebx, %%eax
-	    movl 8(%%esi), %%ebx
-	    adcl %%ebx, %%eax
-	    movl 12(%%esi), %%ebx
-	    adcl %%ebx, %%eax
-	    movl 16(%%esi), %%ebx
-	    adcl %%ebx, %%eax
-	    movl 20(%%esi), %%ebx
-	    adcl %%ebx, %%eax
-	    movl 24(%%esi), %%ebx
-	    adcl %%ebx, %%eax
-	    movl 28(%%esi), %%ebx
-	    adcl %%ebx, %%eax
-	    lea 32(%%esi), %%esi
-	    dec %%ecx
-	    jne 1b
-	    adcl $0, %%eax
-2:	    movl %%edx, %%ecx
-	    andl $0x1c, %%edx
-	    je 4f
-	    shrl $2, %%edx
-	    testl %%esi, %%esi
-3:	    adcl (%%esi), %%eax
-	    lea 4(%%esi), %%esi
-	    dec %%edx
-	    jne 3b
-	    adcl $0, %%eax
-4:	    andl $3, %%ecx
-	    jz 7f
-	    cmpl $2, %%ecx
-	    jb 5f
-	    movw (%%esi),%%cx
-	    leal 2(%%esi),%%esi
-	    je 6f
-	    shll $16,%%ecx
-5:	    movb (%%esi),%%cl
-6:	    addl %%ecx,%%eax
-	    adcl $0, %%eax
-7:	    "
+	__asm__("pushl %%ebx;pushl %%ecx;pushl %%edx;pushl %%esi\n\t"
+	    "testl $2, %%esi\n\t"	// Check alignment.
+	    "jz 2f\n\t"			// Jump if alignment is ok.
+	    "subl $2, %%ecx\n\t"	// Alignment uses up two bytes.
+	    "jae 1f\n\t"		// Jump if we had at least two bytes.
+	    "addl $2, %%ecx\n\t"	// ecx was < 2.  Deal with it.
+	    "jmp 4f\n\t"
+"1:	     movw (%%esi), %%bx\n\t"
+	    "addl $2, %%esi\n\t"
+	    "addw %%bx, %%ax\n\t"
+	    "adcl $0, %%eax\n\t"
+"2:\n\t"
+	    "movl %%ecx, %%edx\n\t"
+	    "shrl $5, %%ecx\n\t"
+	    "jz 2f\n\t"
+	    "testl %%esi, %%esi\n\t"
+"1:	     movl (%%esi), %%ebx\n\t"
+	    "adcl %%ebx, %%eax\n\t"
+	    "movl 4(%%esi), %%ebx\n\t"
+	    "adcl %%ebx, %%eax\n\t"
+	    "movl 8(%%esi), %%ebx\n\t"
+	    "adcl %%ebx, %%eax\n\t"
+	    "movl 12(%%esi), %%ebx\n\t"
+	    "adcl %%ebx, %%eax\n\t"
+	    "movl 16(%%esi), %%ebx\n\t"
+	    "adcl %%ebx, %%eax\n\t"
+	    "movl 20(%%esi), %%ebx\n\t"
+	    "adcl %%ebx, %%eax\n\t"
+	    "movl 24(%%esi), %%ebx\n\t"
+	    "adcl %%ebx, %%eax\n\t"
+	    "movl 28(%%esi), %%ebx\n\t"
+	    "adcl %%ebx, %%eax\n\t"
+	    "lea 32(%%esi), %%esi\n\t"
+	    "dec %%ecx\n\t"
+	    "jne 1b\n\t"
+	    "adcl $0, %%eax\n\t"
+"2:	     movl %%edx, %%ecx\n\t"
+	    "andl $0x1c, %%edx\n\t"
+	    "je 4f\n\t"
+	    "shrl $2, %%edx\n\t"
+	    "testl %%esi, %%esi\n\t"
+"3:	     adcl (%%esi), %%eax\n\t"
+	    "lea 4(%%esi), %%esi\n\t"
+	    "dec %%edx\n\t"
+	    "jne 3b\n\t"
+	    "adcl $0, %%eax\n\t"
+"4:	     andl $3, %%ecx\n\t"
+	    "jz 7f\n\t"
+	    "cmpl $2, %%ecx\n\t"
+	    "jb 5f\n\t"
+	    "movw (%%esi),%%cx\n\t"
+	    "leal 2(%%esi),%%esi\n\t"
+	    "je 6f\n\t"
+	    "shll $16,%%ecx\n\t"
+"5:	     movb (%%esi),%%cl\n\t"
+"6:	     addl %%ecx,%%eax\n\t"
+	    "adcl $0, %%eax\n\t"
+"7:	    "
+	    "popl %%esi;popl %%edx;popl %%ecx;popl %%ebx\n\t"
 	: "=a"(sum)
-	: "0"(sum), "c"(len), "S"(buff)
-	: "bx", "cx", "dx", "si");
+	: "0"(sum), "c"(len), "S"(buff));
 	return(sum);
 }
 
@@ -103,93 +103,84 @@ unsigned int csum_partial(const unsigned char * buff, int len, unsigned int sum)
 
 unsigned int csum_partial_copy_fromuser(const char *src, char *dst, 
 				  int len, int sum) {
-    __asm__("
-	testl $2, %%edi		# Check alignment.
-	jz 2f			# Jump if alignment is ok.
-	subl $2, %%ecx		# Alignment uses up two bytes.
-	jae 1f			# Jump if we had at least two bytes.
-	addl $2, %%ecx		# ecx was < 2.  Deal with it.
-	jmp 4f
-1:	movw %%fs:(%%esi), %%bx
-	addl $2, %%esi
-	movw %%bx, (%%edi)
-	addl $2, %%edi
-	addw %%bx, %%ax
-	adcl $0, %%eax
-2:
-	movl %%ecx, %%edx
-	shrl $5, %%ecx
-	jz 2f
-	testl %%esi, %%esi
-1:	movl %%fs:(%%esi), %%ebx
-	adcl %%ebx, %%eax
-	movl %%ebx, (%%edi)
-
-	movl %%fs:4(%%esi), %%ebx
-	adcl %%ebx, %%eax
-	movl %%ebx, 4(%%edi)
-
-	movl %%fs:8(%%esi), %%ebx
-	adcl %%ebx, %%eax
-	movl %%ebx, 8(%%edi)
-
-	movl %%fs:12(%%esi), %%ebx
-	adcl %%ebx, %%eax
-	movl %%ebx, 12(%%edi)
-
-	movl %%fs:16(%%esi), %%ebx
-	adcl %%ebx, %%eax
-	movl %%ebx, 16(%%edi)
-
-	movl %%fs:20(%%esi), %%ebx
-	adcl %%ebx, %%eax
-	movl %%ebx, 20(%%edi)
-
-	movl %%fs:24(%%esi), %%ebx
-	adcl %%ebx, %%eax
-	movl %%ebx, 24(%%edi)
-
-	movl %%fs:28(%%esi), %%ebx
-	adcl %%ebx, %%eax
-	movl %%ebx, 28(%%edi)
-
-	lea 32(%%esi), %%esi
-	lea 32(%%edi), %%edi
-	dec %%ecx
-	jne 1b
-	adcl $0, %%eax
-2:	movl %%edx, %%ecx
-	andl $28, %%edx
-	je 4f
-	shrl $2, %%edx
-	testl %%esi, %%esi
-3:	movl %%fs:(%%esi), %%ebx
-	adcl %%ebx, %%eax
-	movl %%ebx, (%%edi)
-	lea 4(%%esi), %%esi
-	lea 4(%%edi), %%edi
-	dec %%edx
-	jne 3b
-	adcl $0, %%eax
-4:	andl $3, %%ecx
-	jz 7f
-	cmpl $2, %%ecx
-	jb 5f
-	movw %%fs:(%%esi), %%cx
-	leal 2(%%esi), %%esi
-	movw %%cx, (%%edi)
-	leal 2(%%edi), %%edi
-	je 6f
-	shll $16,%%ecx
-5:	movb %%fs:(%%esi), %%cl
-	movb %%cl, (%%edi)
-6:	addl %%ecx, %%eax
-	adcl $0, %%eax
-7:
-	"
+    __asm__("pushl %%ebx;pushl %%ecx;pushl %%edx;pushl %%edi;pushl %%esi\n\t"
+	"testl $2, %%edi\n\t"	// Check alignment.
+	"jz 2\n\t"		// Jump if alignment is ok.
+	"subl $2, %%ecx\n\t"	// Alignment uses up two bytes.
+	"jae 1f\n\t"		// Jump if we had at least two bytes.
+	"addl $2, %%ecx\n\t"	// ecx was < 2.  Deal with it.
+	"jmp 4f\n\t"
+"1:	 movw %%fs:(%%esi), %%bx\n\t"
+	"addl $2, %%esi\n\t"
+	"movw %%bx, (%%edi)\n\t"
+	"addl $2, %%edi\n\t"
+	"addw %%bx, %%ax\n\t"
+	"adcl $0, %%eax\n\t"
+"2:\n\t"
+	"movl %%ecx, %%edx\n\t"
+	"shrl $5, %%ecx\n\t"
+	"jz 2f\n\t"
+	"testl %%esi, %%esi\n\t"
+"1:	 movl %%fs:(%%esi), %%ebx\n\t"
+	"adcl %%ebx, %%eax\n\t"
+	"movl %%ebx, (%%edi)\n\t"
+	"movl %%fs:4(%%esi), %%ebx\n\t"
+	"adcl %%ebx, %%eax\n\t"
+	"movl %%ebx, 4(%%edi)\n\t"
+	"movl %%fs:8(%%esi), %%ebx\n\t"
+	"adcl %%ebx, %%eax\n\t"
+	"movl %%ebx, 8(%%edi)\n\t"
+	"movl %%fs:12(%%esi), %%ebx\n\t"
+	"adcl %%ebx, %%eax\n\t"
+	"movl %%ebx, 12(%%edi)\n\t"
+	"movl %%fs:16(%%esi), %%ebx\n\t"
+	"adcl %%ebx, %%eax\n\t"
+	"movl %%ebx, 16(%%edi)\n\t"
+	"movl %%fs:20(%%esi), %%ebx\n\t"
+	"adcl %%ebx, %%eax\n\t"
+	"movl %%ebx, 20(%%edi)\n\t"
+	"movl %%fs:24(%%esi), %%ebx\n\t"
+	"adcl %%ebx, %%eax\n\t"
+	"movl %%ebx, 24(%%edi)\n\t"
+	"movl %%fs:28(%%esi), %%ebx\n\t"
+	"adcl %%ebx, %%eax\n\t"
+	"movl %%ebx, 28(%%edi)\n\t"
+	"lea 32(%%esi), %%esi\n\t"
+	"lea 32(%%edi), %%edi\n\t"
+	"dec %%ecx\n\t"
+	"jne 1b\n\t"
+	"adcl $0, %%eax\n\t"
+"2:	 movl %%edx, %%ecx\n\t"
+	"andl $28, %%edx\n\t"
+	"je 4f\n\t"
+	"shrl $2, %%edx\n\t"
+	"testl %%esi, %%esi\n\t"
+"3:	 movl %%fs:(%%esi), %%ebx\n\t"
+	"adcl %%ebx, %%eax\n\t"
+	"movl %%ebx, (%%edi)\n\t"
+	"lea 4(%%esi), %%esi\n\t"
+	"lea 4(%%edi), %%edi\n\t"
+	"dec %%edx\n\t"
+	"jne 3b\n\t"
+	"adcl $0, %%eax\n\t"
+"4:	 andl $3, %%ecx\n\t"
+	"jz 7f\n\t"
+	"cmpl $2, %%ecx\n\t"
+	"jb 5f\n\t"
+	"movw %%fs:(%%esi), %%cx\n\t"
+	"leal 2(%%esi), %%esi\n\t"
+	"movw %%cx, (%%edi)\n\t"
+	"leal 2(%%edi), %%edi\n\t"
+	"je 6f\n\t"
+	"shll $16,%%ecx\n\t"
+"5:	 movb %%fs:(%%esi), %%cl\n\t"
+	"movb %%cl, (%%edi)\n\t"
+"6:	 addl %%ecx, %%eax\n\t"
+	"adcl $0, %%eax\n\t"
+"7:\n\t"
+	"popl %%esi;popl %%edi;popl %%edx;popl %%ecx;popl %%ebx\n\t"
 	: "=a" (sum)
-	: "0"(sum), "c"(len), "S"(src), "D" (dst)
-	: "bx", "cx", "dx", "si", "di" );
+	: "0"(sum), "c"(len), "S"(src), "D" (dst));
     return(sum);
 }
 /*
@@ -198,92 +189,83 @@ unsigned int csum_partial_copy_fromuser(const char *src, char *dst,
 
 unsigned int csum_partial_copy(const char *src, char *dst, 
 				  int len, int sum) {
-    __asm__("
-	testl $2, %%edi		# Check alignment.
-	jz 2f			# Jump if alignment is ok.
-	subl $2, %%ecx		# Alignment uses up two bytes.
-	jae 1f			# Jump if we had at least two bytes.
-	addl $2, %%ecx		# ecx was < 2.  Deal with it.
-	jmp 4f
-1:	movw (%%esi), %%bx
-	addl $2, %%esi
-	movw %%bx, (%%edi)
-	addl $2, %%edi
-	addw %%bx, %%ax
-	adcl $0, %%eax
-2:
-	movl %%ecx, %%edx
-	shrl $5, %%ecx
-	jz 2f
-	testl %%esi, %%esi
-1:	movl (%%esi), %%ebx
-	adcl %%ebx, %%eax
-	movl %%ebx, (%%edi)
-
-	movl 4(%%esi), %%ebx
-	adcl %%ebx, %%eax
-	movl %%ebx, 4(%%edi)
-
-	movl 8(%%esi), %%ebx
-	adcl %%ebx, %%eax
-	movl %%ebx, 8(%%edi)
-
-	movl 12(%%esi), %%ebx
-	adcl %%ebx, %%eax
-	movl %%ebx, 12(%%edi)
-
-	movl 16(%%esi), %%ebx
-	adcl %%ebx, %%eax
-	movl %%ebx, 16(%%edi)
-
-	movl 20(%%esi), %%ebx
-	adcl %%ebx, %%eax
-	movl %%ebx, 20(%%edi)
-
-	movl 24(%%esi), %%ebx
-	adcl %%ebx, %%eax
-	movl %%ebx, 24(%%edi)
-
-	movl 28(%%esi), %%ebx
-	adcl %%ebx, %%eax
-	movl %%ebx, 28(%%edi)
-
-	lea 32(%%esi), %%esi
-	lea 32(%%edi), %%edi
-	dec %%ecx
-	jne 1b
-	adcl $0, %%eax
-2:	movl %%edx, %%ecx
-	andl $28, %%edx
-	je 4f
-	shrl $2, %%edx
-	testl %%esi, %%esi
-3:	movl (%%esi), %%ebx
-	adcl %%ebx, %%eax
-	movl %%ebx, (%%edi)
-	lea 4(%%esi), %%esi
-	lea 4(%%edi), %%edi
-	dec %%edx
-	jne 3b
-	adcl $0, %%eax
-4:	andl $3, %%ecx
-	jz 7f
-	cmpl $2, %%ecx
-	jb 5f
-	movw (%%esi), %%cx
-	leal 2(%%esi), %%esi
-	movw %%cx, (%%edi)
-	leal 2(%%edi), %%edi
-	je 6f
-	shll $16,%%ecx
-5:	movb (%%esi), %%cl
-	movb %%cl, (%%edi)
-6:	addl %%ecx, %%eax
-	adcl $0, %%eax
-7:
-	"
+    __asm__("pushl %%ebx;pushl %%ecx;pushl %%edx;pushl %%edi;pushl %%esi\n\t"
+	"testl $2, %%edi\n\t"		// Check alignment.
+	"jz 2f\n\t"			// Jump if alignment is ok.
+	"subl $2, %%ecx\n\t"		// Alignment uses up two bytes.
+	"jae 1f\n\t"			// Jump if we had at least two bytes.
+	"addl $2, %%ecx\n\t"		// ecx was < 2.  Deal with it.
+	"jmp 4f\n\t"
+"1:	 movw (%%esi), %%bx\n\t"
+	"addl $2, %%esi\n\t"
+	"movw %%bx, (%%edi)\n\t"
+	"addl $2, %%edi\n\t"
+	"addw %%bx, %%ax\n\t"
+	"adcl $0, %%eax\n\t"
+"2:\n\t"
+	"movl %%ecx, %%edx\n\t"
+	"shrl $5, %%ecx\n\t"
+	"jz 2f\n\t"
+	"testl %%esi, %%esi\n\t"
+"1:	 movl (%%esi), %%ebx\n\t"
+	"adcl %%ebx, %%eax\n\t"
+	"movl %%ebx, (%%edi)\n\t"
+	"movl 4(%%esi), %%ebx\n\t"
+	"adcl %%ebx, %%eax\n\t"
+	"movl %%ebx, 4(%%edi)\n\t"
+	"movl 8(%%esi), %%ebx\n\t"
+	"adcl %%ebx, %%eax\n\t"
+	"movl %%ebx, 8(%%edi)\n\t"
+	"movl 12(%%esi), %%ebx\n\t"
+	"adcl %%ebx, %%eax\n\t"
+	"movl %%ebx, 12(%%edi)\n\t"
+	"movl 16(%%esi), %%ebx\n\t"
+	"adcl %%ebx, %%eax\n\t"
+	"movl %%ebx, 16(%%edi)\n\t"
+	"movl 20(%%esi), %%ebx\n\t"
+	"adcl %%ebx, %%eax\n\t"
+	"movl %%ebx, 20(%%edi)\n\t"
+	"movl 24(%%esi), %%ebx\n\t"
+	"adcl %%ebx, %%eax\n\t"
+	"movl %%ebx, 24(%%edi)\n\t"
+	"movl 28(%%esi), %%ebx\n\t"
+	"adcl %%ebx, %%eax\n\t"
+	"movl %%ebx, 28(%%edi)\n\t"
+	"lea 32(%%esi), %%esi\n\t"
+	"lea 32(%%edi), %%edi\n\t"
+	"dec %%ecx\n\t"
+	"jne 1b\n\t"
+	"adcl $0, %%eax\n\t"
+"2:	 movl %%edx, %%ecx\n\t"
+	"andl $28, %%edx\n\t"
+	"je 4f\n\t"
+	"shrl $2, %%edx\n\t"
+	"testl %%esi, %%esi\n\t"
+"3:	 movl (%%esi), %%ebx\n\t"
+	"adcl %%ebx, %%eax\n\t"
+	"movl %%ebx, (%%edi)\n\t"
+	"lea 4(%%esi), %%esi\n\t"
+	"lea 4(%%edi), %%edi\n\t"
+	"dec %%edx\n\t"
+	"jne 3b\n\t"
+	"adcl $0, %%eax\n\t"
+"4:	 andl $3, %%ecx\n\t"
+	"jz 7f\n\t"
+	"cmpl $2, %%ecx\n\t"
+	"jb 5f\n\t"
+	"movw (%%esi), %%cx\n\t"
+	"leal 2(%%esi), %%esi\n\t"
+	"movw %%cx, (%%edi)\n\t"
+	"leal 2(%%edi), %%edx\n\t"
+	"je 6f\n\t"
+	"shll $16,%%ecx\n\t"
+"5:	 movb (%%esi), %%cl\n\t"
+	"movb %%cl, (%%edi)\n\t"
+"6:	 addl %%ecx, %%eax\n\t"
+	"adcl $0, %%eax\n\t"
+"7:\n\t"
+	"popl %%esi;popl %%edi;popl %%edx;popl %%ecx;popl %%ebx\n\t"
 	: "=a" (sum)
-	: "0"(sum), "c"(len), "S"(src), "D" (dst)
-	: "bx", "cx", "dx", "si", "di" );
+	: "0"(sum), "c"(len), "S"(src), "D" (dst));
     return(sum);
 }

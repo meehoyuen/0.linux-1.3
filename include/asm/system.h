@@ -83,7 +83,7 @@ __asm__("pushl %%edx\n\t" \
 	"and  $0x3C,%%edx\n\t" \
 	"movl %%ecx,"SYMBOL_NAME_STR(current_set)"(,%%edx)\n\t" \
 	"popl %%edx\n\t" \
-	"ljmp %0\n\t" \
+	"ljmp *%0\n\t" \
 	"sti\n\t" \
 	: /* no output */ \
 	:"m" (*(((char *)&next->tss.tr)-4)), \
@@ -101,7 +101,7 @@ __asm__("pushl %%edx\n\t" \
 #else
 #define switch_to(prev,next) do { \
 __asm__("movl %2,"SYMBOL_NAME_STR(current_set)"\n\t" \
-	"ljmp %0\n\t" \
+	"ljmp *%0\n\t" \
 	"cmpl %1,"SYMBOL_NAME_STR(last_task_used_math)"\n\t" \
 	"jne 1f\n\t" \
 	"clts\n" \
@@ -229,15 +229,15 @@ __asm__ __volatile__("pushl %0 ; popfl": /* no output */ :"g" (x):"memory")
 #define iret() __asm__ __volatile__ ("iret": : :"memory")
 
 #define _set_gate(gate_addr,type,dpl,addr) \
-__asm__ __volatile__ ("movw %%dx,%%ax\n\t" \
+__asm__ __volatile__ ("pushl %%eax;pushl %%edx;movw %%dx,%%ax\n\t" \
 	"movw %2,%%dx\n\t" \
 	"movl %%eax,%0\n\t" \
-	"movl %%edx,%1" \
+	"movl %%edx,%1\n\t" \
+	"popl %%edx;popl %%eax\n\t" \
 	:"=m" (*((long *) (gate_addr))), \
 	 "=m" (*(1+(long *) (gate_addr))) \
 	:"i" ((short) (0x8000+(dpl<<13)+(type<<8))), \
-	 "d" ((char *) (addr)),"a" (KERNEL_CS << 16) \
-	:"ax","dx")
+	 "d" ((char *) (addr)),"a" (KERNEL_CS << 16))
 
 #define set_intr_gate(n,addr) \
 	_set_gate(&idt[n],14,0,addr)
