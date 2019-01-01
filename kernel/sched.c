@@ -327,7 +327,9 @@ asmlinkage void schedule(void)
 			}
 		default:
 			del_from_runqueue(prev);
+			break;
 		case TASK_RUNNING:
+			break;
 	}
 	p = init_task.next_run;
 	sti();

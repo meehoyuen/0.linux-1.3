@@ -1,6 +1,6 @@
 CC = gcc
 CPP = gcc -E
-OPTIM = -O2 -Wall -fomit-frame-pointer
+OPTIM = -O2 -fomit-frame-pointer
 
 CFLAGS = $(OPTIM) -DLOCALE 
 LDFLAGS = -s -L .

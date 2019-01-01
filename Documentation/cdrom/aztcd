@@ -475,7 +475,7 @@ program without stopping the  drive, playing is continued. You can also
 (mis)use cdplay to read and hexdump data disks. You can find the code in the 
 APPENDIX of this file, which you should cut out with an editor and store in a 
 separate file 'cdplay.c'. To compile it and make it executable, do
-  gcc -s -Wall -O2 -L/usr/lib cdplay.c -o /usr/local/bin/cdplay # compiles it
+  gcc -s -O2 -L/usr/lib cdplay.c -o /usr/local/bin/cdplay # compiles it
   chmod +755 /usr/local/bin/cdplay                              # makes it executable
   ln -s /dev/aztcd0 /dev/cdrom                                  # creates a link
    (for /usr/lib substitute the top level directory, where your include files 

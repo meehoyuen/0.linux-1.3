@@ -854,7 +854,7 @@ void cleanup_module(void)
 
 /*
  * Local variables:
- *  compile-command: "gcc -D__KERNEL__ -Wall -Wstrict-prototypes -O6 -fomit-frame-pointer  -m486 -c -o 3c501.o 3c501.c"
+ *  compile-command: "gcc -D__KERNEL__ -Wstrict-prototypes -O6 -fomit-frame-pointer   -c -o 3c501.o 3c501.c"
  *  kept-new-versions: 5
  * End:
  */

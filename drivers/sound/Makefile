@@ -59,7 +59,7 @@ ifndef HOSTCC
 #
 CC	= gcc
 HOSTCC	= gcc
-CFLAGS	= -D__KERNEL__ -DMODULE -I/usr/src/linux/include -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -pipe -m486
+CFLAGS	= -D__KERNEL__ -DMODULE -I/usr/src/linux/include -Wstrict-prototypes -O2 -fomit-frame-pointer -pipe 
 USE_DEPEND=y
 else
 include $(TOPDIR)/Rules.make

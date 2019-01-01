@@ -914,7 +914,7 @@ cleanup_module(void)
 
 /*
  * Local variables:
- *  compile-command: "gcc -D__KERNEL__ -I/usr/src/linux/net/inet -I/usr/src/linux/drivers/net -Wall -Wstrict-prototypes -O6 -m486 -c 3c507.c"
+ *  compile-command: "gcc -D__KERNEL__ -I/usr/src/linux/net/inet -I/usr/src/linux/drivers/net -Wstrict-prototypes -O6  -c 3c507.c"
  *  version-control: t
  *  kept-new-versions: 5
  *  tab-width: 4

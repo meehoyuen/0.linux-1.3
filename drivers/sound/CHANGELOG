@@ -20,7 +20,7 @@ Since 3.5-beta7
 - enhancements to configure program (by Jeff Tranter):
   - prompts are in same format as 1.3.x Linux kernel config program
   - on-line help for each question
-  - fixed some compile warnings detected by gcc/g++ -Wall
+  - fixed some compile warnings detected by gcc/g++ 
   - minor grammatical changes to prompts
 
 Since 3.5-beta6

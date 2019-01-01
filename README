@@ -117,7 +117,7 @@ CONFIGURING the kernel:
 	- having unnecessary drivers will make the kernel bigger, and can
 	  under some circumstances lead to problems: probing for a
 	  nonexistent controller card may confuse your other controllers
-	- compiling the kernel with "-m486" for a number of 486-specific
+	- compiling the kernel with "" for a number of 486-specific
 	  will result in a kernel that does NOT work on a 386.  The
 	  kernel will detect this on bootup, and give up.
 	- A kernel with math-emulation compiled in will still use the

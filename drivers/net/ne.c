@@ -726,7 +726,7 @@ cleanup_module(void)
 
 /*
  * Local variables:
- *  compile-command: "gcc -DKERNEL -Wall -O6 -fomit-frame-pointer -I/usr/src/linux/net/tcp -c ne.c"
+ *  compile-command: "gcc -DKERNEL -O6 -fomit-frame-pointer -I/usr/src/linux/net/tcp -c ne.c"
  *  version-control: t
  *  kept-new-versions: 5
  * End:

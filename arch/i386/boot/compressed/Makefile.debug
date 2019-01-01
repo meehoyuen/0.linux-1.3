@@ -6,7 +6,7 @@
 
 OBJECTS = misc.o 
 
-CFLAGS = -g -O2 -DSTDC_HEADERS -DSTANDALONE_DEBUG -Wall
+CFLAGS = -g -O2 -DSTDC_HEADERS -DSTANDALONE_DEBUG 
 
 test-gzip: piggy.o $(OBJECTS)
 	$(CC) -g -o test-gzip $(OBJECTS) piggy.o

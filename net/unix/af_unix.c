@@ -1315,6 +1315,6 @@ void unix_proto_init(struct net_proto *pro)
 }
 /*
  * Local variables:
- *  compile-command: "gcc -g -D__KERNEL__ -Wall -O6 -I/usr/src/linux/include -c af_unix.c"
+ *  compile-command: "gcc -g -D__KERNEL__ -O6 -I/usr/src/linux/include -c af_unix.c"
  * End:
  */

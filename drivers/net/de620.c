@@ -1032,14 +1032,14 @@ cleanup_module(void)
  * (add '-DMODULE' when compiling as loadable module)
  *
  * compile-command:
- *	gcc -D__KERNEL__ -Wall -Wstrict-prototypes -O2 \
- *	 -fomit-frame-pointer -m486 \
+ *	gcc -D__KERNEL__ -Wstrict-prototypes -O2 \
+ *	 -fomit-frame-pointer  \
  *	-I/usr/src/linux/include -I../../net/inet -c de620.c
 */
 /*
  * Local variables:
- *  kernel-compile-command: "gcc -D__KERNEL__ -Ilinux/include -I../../net/inet -Wall -Wstrict-prototypes -O2 -m486 -c de620.c"
- *  module-compile-command: "gcc -D__KERNEL__ -DMODULE -Ilinux/include -I../../net/inet -Wall -Wstrict-prototypes -O2 -m486 -c de620.c"
- *  compile-command: "gcc -D__KERNEL__ -DMODULE -Ilinux/include -I../../net/inet -Wall -Wstrict-prototypes -O2 -m486 -c de620.c"
+ *  kernel-compile-command: "gcc -D__KERNEL__ -Ilinux/include -I../../net/inet -Wstrict-prototypes -O2  -c de620.c"
+ *  module-compile-command: "gcc -D__KERNEL__ -DMODULE -Ilinux/include -I../../net/inet -Wstrict-prototypes -O2  -c de620.c"
+ *  compile-command: "gcc -D__KERNEL__ -DMODULE -Ilinux/include -I../../net/inet -Wstrict-prototypes -O2  -c de620.c"
  * End:
  */

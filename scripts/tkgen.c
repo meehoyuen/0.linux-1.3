@@ -15,7 +15,7 @@
  *                - Choice buttons are more user-friendly.
  *                - Disabling a text entry line greys it out properly.
  *                - dep_tristate now works like in Configure. (not pretty)
- *                - No warnings in gcc -Wall. (Fixed some "interesting" bugs.)
+ *                - No warnings in gcc . (Fixed some "interesting" bugs.)
  *                - Faster/prettier "Help" lookups.
  *
  * 1996 03 15

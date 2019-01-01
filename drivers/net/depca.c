@@ -1894,8 +1894,8 @@ cleanup_module(void)
 
 /*
  * Local variables:
- *  kernel-compile-command: "gcc -D__KERNEL__ -I/usr/src/linux/net/inet -Wall -Wstrict-prototypes -O2 -m486 -c depca.c"
+ *  kernel-compile-command: "gcc -D__KERNEL__ -I/usr/src/linux/net/inet -Wstrict-prototypes -O2  -c depca.c"
  *
- *  module-compile-command: "gcc -D__KERNEL__ -DMODULE -I/usr/src/linux/net/inet -Wall -Wstrict-prototypes -O2 -m486 -c depca.c"
+ *  module-compile-command: "gcc -D__KERNEL__ -DMODULE -I/usr/src/linux/net/inet -Wstrict-prototypes -O2  -c depca.c"
  * End:
  */

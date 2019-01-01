@@ -19,8 +19,8 @@ static const char *version =
  *	C/O Supercomputing Research Ctr., 17100 Science Dr., Bowie MD 20715
  *
  *	compile-command:
- *	"gcc -D__KERNEL__  -Wall -Wstrict-prototypes -O6 -fomit-frame-pointer \
- *	 -m486 -c de600.c
+ *	"gcc -D__KERNEL__  -Wstrict-prototypes -O6 -fomit-frame-pointer \
+ *	  -c de600.c
  *
  **************************************************************/
 /*
@@ -846,8 +846,8 @@ cleanup_module(void)
 #endif /* MODULE */
 /*
  * Local variables:
- *  kernel-compile-command: "gcc -D__KERNEL__ -Ilinux/include -I../../net/inet -Wall -Wstrict-prototypes -O2 -m486 -c de600.c"
- *  module-compile-command: "gcc -D__KERNEL__ -DMODULE -Ilinux/include -I../../net/inet -Wall -Wstrict-prototypes -O2 -m486 -c de600.c"
- *  compile-command: "gcc -D__KERNEL__ -DMODULE -Ilinux/include -I../../net/inet -Wall -Wstrict-prototypes -O2 -m486 -c de600.c"
+ *  kernel-compile-command: "gcc -D__KERNEL__ -Ilinux/include -I../../net/inet -Wstrict-prototypes -O2  -c de600.c"
+ *  module-compile-command: "gcc -D__KERNEL__ -DMODULE -Ilinux/include -I../../net/inet -Wstrict-prototypes -O2  -c de600.c"
+ *  compile-command: "gcc -D__KERNEL__ -DMODULE -Ilinux/include -I../../net/inet -Wstrict-prototypes -O2  -c de600.c"
  * End:
  */

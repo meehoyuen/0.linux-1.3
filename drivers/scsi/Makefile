@@ -25,8 +25,8 @@ AHA152X	= -DDEBUG_AHA152X -DAUTOCONF
 
 ifeq (${CFLAGS},)
 CFLAGS = -D__KERNEL__=1 \
-	-DMODULE -Wall -Wstrict-prototypes -I. -I../../include \
-	-O2 -fomit-frame-pointer -m486
+	-DMODULE -Wstrict-prototypes -I. -I../../include \
+	-O2 -fomit-frame-pointer 
 
 include ../../.config
 

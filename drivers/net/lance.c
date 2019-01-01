@@ -1171,7 +1171,7 @@ static void set_multicast_list(struct device *dev)
 
 /*
  * Local variables:
- *  compile-command: "gcc -D__KERNEL__ -I/usr/src/linux/net/inet -Wall -Wstrict-prototypes -O6 -m486 -c lance.c"
+ *  compile-command: "gcc -D__KERNEL__ -I/usr/src/linux/net/inet -Wstrict-prototypes -O6  -c lance.c"
  *  c-indent-level: 4
  *  tab-width: 4
  * End:

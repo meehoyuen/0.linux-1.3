@@ -652,39 +652,39 @@ int blk_dev_init(void)
 #endif
 #ifdef CONFIG_CDI_INIT
 	cdi_init();
-#endif CONFIG_CDI_INIT
+#endif
 #ifdef CONFIG_CDU31A
 	cdu31a_init();
-#endif CONFIG_CDU31A
+#endif
 #ifdef CONFIG_MCD
 	mcd_init();
-#endif CONFIG_MCD
+#endif
 #ifdef CONFIG_MCDX
 	mcdx_init();
-#endif CONFIG_MCDX
+#endif
 #ifdef CONFIG_SBPCD
 	sbpcd_init();
-#endif CONFIG_SBPCD
+#endif
 #ifdef CONFIG_AZTCD
         aztcd_init();
-#endif CONFIG_AZTCD
+#endif
 #ifdef CONFIG_CDU535
 	sony535_init();
-#endif CONFIG_CDU535
+#endif
 #ifdef CONFIG_GSCD
 	gscd_init();
-#endif CONFIG_GSCD
+#endif
 #ifdef CONFIG_CM206
 	cm206_init();
 #endif
 #ifdef CONFIG_OPTCD
 	optcd_init();
-#endif CONFIG_OPTCD
+#endif
 #ifdef CONFIG_SJCD
 	sjcd_init();
-#endif CONFIG_SJCD
+#endif
 #ifdef CONFIG_BLK_DEV_MD
 	md_init();
-#endif CONFIG_BLK_DEV_MD
+#endif
 	return 0;
 }

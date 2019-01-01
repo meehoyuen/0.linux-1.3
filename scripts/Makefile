@@ -1,4 +1,4 @@
-HOSTCFLAGS:=$(HOSTCFLAGS) -g -Wall
+HOSTCFLAGS:=$(HOSTCFLAGS) -g 
 HEADER=header.tk
 TAIL=tail.tk
 

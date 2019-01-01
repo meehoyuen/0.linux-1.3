@@ -113,7 +113,7 @@ int autoirq_report(int waittime)
 
 /*
  * Local variables:
- *  compile-command: "gcc -DKERNEL -Wall -O6 -fomit-frame-pointer -I/usr/src/linux/net/tcp -c auto_irq.c"
+ *  compile-command: "gcc -DKERNEL -O6 -fomit-frame-pointer -I/usr/src/linux/net/tcp -c auto_irq.c"
  *  version-control: t
  *  kept-new-versions: 5
  *  c-indent-level: 4

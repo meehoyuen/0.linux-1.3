@@ -442,7 +442,7 @@ cleanup_module(void)
 
 /*
  * Local variables:
- * compile-command: "gcc -D__KERNEL__ -I/usr/src/linux/net/inet -Wall -Wstrict-prototypes -O6 -m486 -c hp.c"
+ * compile-command: "gcc -D__KERNEL__ -I/usr/src/linux/net/inet -Wstrict-prototypes -O6  -c hp.c"
  * version-control: t
  * kept-new-versions: 5
  * tab-width: 4

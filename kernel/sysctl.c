@@ -556,7 +556,7 @@ int proc_dointvec(ctl_table *table, int write, struct file *filp,
 	for (; left && vleft--; i++, first=0) {
 		if (write) {
 			while (left && isspace(get_user((char *) buffer)))
-				left--, ((char *) buffer)++;
+				left--, buffer = (char *)buffer+1;
 			if (!left)
 				break;
 			neg = 0;
@@ -633,7 +633,7 @@ int proc_dointvec_minmax(ctl_table *table, int write, struct file *filp,
 	for (; left && vleft--; i++, first=0) {
 		if (write) {
 			while (left && isspace(get_user((char *) buffer)))
-				left--, ((char *) buffer)++;
+				left--, buffer = (char *)buffer+1;
 			if (!left)
 				break;
 			neg = 0;

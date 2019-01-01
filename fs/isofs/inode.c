@@ -187,7 +187,7 @@ static unsigned int isofs_get_last_session(kdev_t dev)
 	  printk("isofs.inode: XA disk: %s\n", ms_info.xa_flag ? "yes":"no");
 	  printk("isofs.inode: vol_desc_start = %d\n", ms_info.addr.lba);
 	}
-#endif 0
+#endif
       if ((i==0)&&(ms_info.xa_flag)) vol_desc_start=ms_info.addr.lba;
     }
   return vol_desc_start;
@@ -253,7 +253,7 @@ struct super_block *isofs_read_super(struct super_block *s,void *data,
 	for (iso_blknum = vol_desc_start+16; iso_blknum < vol_desc_start+100; iso_blknum++) {
 #if 0
 	        printk("isofs.inode: iso_blknum=%d\n", iso_blknum);
-#endif 0
+#endif
 		if (!(bh = bread(dev, iso_blknum << (ISOFS_BLOCK_BITS-blocksize_bits), opt.blocksize))) {
 			s->s_dev = 0;
 			printk("isofs_read_super: bread failed, dev "

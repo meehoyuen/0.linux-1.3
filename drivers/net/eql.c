@@ -1097,7 +1097,7 @@ void cleanup_module(void)
 
 /*
  * Local Variables: 
- * compile-command: "gcc -D__KERNEL__ -I/usr/src/linux/net/inet -Wall -Wstrict-prototypes -O6 -m486 -c eql.c"
+ * compile-command: "gcc -D__KERNEL__ -I/usr/src/linux/net/inet -Wstrict-prototypes -O6  -c eql.c"
  * version-control: t
  * kept-new-versions: 20
  * End:

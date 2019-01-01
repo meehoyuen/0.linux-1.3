@@ -797,7 +797,7 @@ int sparc_lance_probe (struct device *dev)
 }
 /*
  * Local variables:
- *  compile-command: "gcc -DKERNEL -Wall -O6 -fomit-frame-pointer -I../../..//net/tcp -c lance.c"
+ *  compile-command: "gcc -DKERNEL -O6 -fomit-frame-pointer -I../../..//net/tcp -c lance.c"
  *  version-control: t
  *  kept-new-versions: 5
  * End:

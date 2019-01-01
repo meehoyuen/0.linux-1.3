@@ -1738,6 +1738,6 @@ void cleanup_module(void)
  * Local Variables:
  *  c-file-style: "linux"
  *  tab-width: 8
- *  compile-command: "gcc -D__KERNEL__ -I/discs/bibble/src/linux-1.3.69/include  -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -fno-strength-reduce -pipe -m486 -DCPU=486 -DMODULE  -c 3c505.c"
+ *  compile-command: "gcc -D__KERNEL__ -I/discs/bibble/src/linux-1.3.69/include  -Wstrict-prototypes -O2 -fomit-frame-pointer -fno-strength-reduce -pipe  -DCPU=486 -DMODULE  -c 3c505.c"
  * End:
  */

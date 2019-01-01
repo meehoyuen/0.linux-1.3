@@ -3861,8 +3861,8 @@ cleanup_module(void)
 
 /*
  * Local variables:
- *  compile-command: "gcc -D__KERNEL__ -I/usr/src/linux/net/inet -Wall -Wstrict-prototypes -O2 -m486 -c de4x5.c"
+ *  compile-command: "gcc -D__KERNEL__ -I/usr/src/linux/net/inet -Wstrict-prototypes -O2  -c de4x5.c"
  *
- *  compile-command: "gcc -D__KERNEL__ -DMODULE -I/usr/src/linux/net/inet -Wall -Wstrict-prototypes -O2 -m486 -c de4x5.c"
+ *  compile-command: "gcc -D__KERNEL__ -DMODULE -I/usr/src/linux/net/inet -Wstrict-prototypes -O2  -c de4x5.c"
  * End:
  */

@@ -737,7 +737,7 @@ static void update_stop_hit(short ioaddr, unsigned short rx_stop_offset)
 
 /*
  * Local variables:
- *  compile-command: "gcc -D__KERNEL__ -I/usr/src/linux/net/inet -Wall -Wstrict-prototypes -O6 -m486 -c znet.c"
+ *  compile-command: "gcc -D__KERNEL__ -I/usr/src/linux/net/inet -Wstrict-prototypes -O6  -c znet.c"
  *  version-control: t
  *  kept-new-versions: 5
  *  c-indent-level: 4

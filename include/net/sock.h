@@ -419,6 +419,7 @@ static inline void lock_sock(struct sock *sk)
 		__label__ here;
 		printk("double lock on socket at %p\n", &&here);
 here:
+		__asm__ __volatile__("nop");
 	}
 #endif
 	sk->users++;
@@ -435,6 +436,7 @@ static inline void release_sock(struct sock *sk)
 		sk->users = 1;
 		printk("trying to unlock unlocked socket at %p\n", &&here);
 here:
+		__asm__ __volatile__("nop");
 	}
 #endif
 	if (!--sk->users)

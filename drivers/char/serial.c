@@ -343,7 +343,7 @@ static void rs_start(struct tty_struct *tty)
  * possible.  After you are done making modifications, it is not a bad
  * idea to do:
  * 
- * gcc -S -DKERNEL -Wall -Wstrict-prototypes -O6 -fomit-frame-pointer serial.c
+ * gcc -S -DKERNEL -Wstrict-prototypes -O6 -fomit-frame-pointer serial.c
  *
  * and look at the resulting assemble code in serial.s.
  *

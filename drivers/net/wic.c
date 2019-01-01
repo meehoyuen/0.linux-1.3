@@ -1449,6 +1449,6 @@ cleanup_module(void)
 
 /*
  * Local variables:
- * compile-command: "gcc -DMODULE -DCONFIG_MODVERSIONS -D__KERNEL__ -Wall -Wstrict-prototypes -O2 -g -fomit-frame-pointer -pipe -m486 -c wic.c"
+ * compile-command: "gcc -DMODULE -DCONFIG_MODVERSIONS -D__KERNEL__ -Wstrict-prototypes -O2 -g -fomit-frame-pointer -pipe  -c wic.c"
  * End:
  */

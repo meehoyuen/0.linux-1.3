@@ -629,8 +629,8 @@ cleanup_module(void)
 /*
  * Local variables:
  *  compile-command:
- *	gcc -D__KERNEL__ -Wall -Wstrict-prototypes -Wwrite-strings
- *	-Wredundant-decls -O2 -m486 -c skeleton.c
+ *	gcc -D__KERNEL__ -Wstrict-prototypes -Wwrite-strings
+ *	-Wredundant-decls -O2  -c skeleton.c
  *  version-control: t
  *  kept-new-versions: 5
  *  tab-width: 4

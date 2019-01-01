@@ -410,7 +410,7 @@ cleanup_module(void)
 
 /*
  * Local variables:
- *  compile-command: "gcc -D__KERNEL__ -Wall -O6 -I/usr/src/linux/net/inet -c smc-ultra.c"
+ *  compile-command: "gcc -D__KERNEL__ -O6 -I/usr/src/linux/net/inet -c smc-ultra.c"
  *  version-control: t
  *  kept-new-versions: 5
  *  c-indent-level: 4

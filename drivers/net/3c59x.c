@@ -1059,7 +1059,7 @@ cleanup_module(void)
 
 /*
  * Local variables:
- *  compile-command: "gcc -DMODULE -D__KERNEL__ -I/usr/src/linux/net/inet -Wall -Wstrict-prototypes -O6 -m486 -c 3c59x.c -o 3c59x.o"
+ *  compile-command: "gcc -DMODULE -D__KERNEL__ -I/usr/src/linux/net/inet -Wstrict-prototypes -O6  -c 3c59x.c -o 3c59x.o"
  *  c-indent-level: 4
  *  tab-width: 4
  * End:

@@ -31,8 +31,8 @@ HOSTCFLAGS	=
 CROSS_COMPILE 	=
 
 AS	=$(CROSS_COMPILE)as
-LD	=$(CROSS_COMPILE)ld
-CC	=$(CROSS_COMPILE)gcc -D__KERNEL__ -I$(HPATH)
+LD	=$(CROSS_COMPILE)ld -m elf_i386
+CC	=$(CROSS_COMPILE)gcc -m32 -D__KERNEL__ -I$(HPATH)
 CPP	=$(CC) -E
 AR	=$(CROSS_COMPILE)ar
 NM	=$(CROSS_COMPILE)nm
@@ -87,7 +87,7 @@ SVGA_MODE=	-DSVGA_MODE=NORMAL_VGA
 # standard CFLAGS
 #
 
-CFLAGS = -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -fno-strength-reduce
+CFLAGS = -Wstrict-prototypes -O2 -fomit-frame-pointer -fno-strength-reduce
 
 ifdef CONFIG_CPP
 CFLAGS := $(CFLAGS) -x c++
@@ -173,22 +173,18 @@ vmlinux: $(CONFIGURATION) init/main.o init/version.o linuxsubdirs
 		$(LIBS) -o vmlinux
 	$(NM) vmlinux | grep -v '\(compiled\)\|\(\.o$$\)\|\( a \)' | sort > System.map
 
-symlinks:
-	rm -f include/asm
-	( cd include ; ln -sf asm-$(ARCH) asm)
-
-oldconfig: symlinks
+oldconfig:
 	$(CONFIG_SHELL) scripts/Configure -d arch/$(ARCH)/config.in
 
-xconfig: symlinks
+xconfig:
 	$(MAKE) -C scripts kconfig.tk
 	wish -f scripts/kconfig.tk
 
-menuconfig: include/linux/version.h symlinks 
+menuconfig: include/linux/version.h
 	$(MAKE) -C scripts/lxdialog all
 	$(CONFIG_SHELL) scripts/Menuconfig arch/$(ARCH)/config.in
 
-config: symlinks
+config:
 	$(CONFIG_SHELL) scripts/Configure arch/$(ARCH)/config.in
 
 linuxsubdirs: dummy

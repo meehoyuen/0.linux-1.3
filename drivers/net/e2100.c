@@ -448,7 +448,7 @@ cleanup_module(void)
 
 /*
  * Local variables:
- *  compile-command: "gcc -D__KERNEL__ -I/usr/src/linux/net/inet -Wall -Wstrict-prototypes -O6 -m486 -c e2100.c"
+ *  compile-command: "gcc -D__KERNEL__ -I/usr/src/linux/net/inet -Wstrict-prototypes -O6  -c e2100.c"
  *  version-control: t
  *  tab-width: 4
  *  kept-new-versions: 5

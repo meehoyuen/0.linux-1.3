@@ -60,20 +60,8 @@ endif
 
 CFLAGS := $(CFLAGS) -pipe
 
-ifdef CONFIG_M386
-CFLAGS := $(CFLAGS) -m386 -DCPU=386
-endif
-
-ifdef CONFIG_M486
-CFLAGS := $(CFLAGS) -m486 -DCPU=486
-endif
-
-ifdef CONFIG_M586
-CFLAGS := $(CFLAGS) -m486 -malign-loops=2 -malign-jumps=2 -malign-functions=2 -DCPU=586
-endif
-
 ifdef CONFIG_M686
-CFLAGS := $(CFLAGS) -m486 -malign-loops=2 -malign-jumps=2 -malign-functions=2 -DCPU=686
+CFLAGS := $(CFLAGS)  -falign-loops=2 -falign-jumps=2 -falign-functions=2 -DCPU=686
 endif
 
 ifdef SMP

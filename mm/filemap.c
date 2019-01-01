@@ -172,7 +172,7 @@ int shrink_mmap(int priority, int dma)
 				set_bit(PG_referenced, &page->flags);
 				/* fall through */
 			case 0:
-				/* nothing */
+				break;/* nothing */
 		}
 next:
 		page++;
