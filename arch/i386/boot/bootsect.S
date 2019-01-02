@@ -45,7 +45,7 @@ SWAP_DEV = 0
 #endif
 #ifndef RAMDISK
 #define RAMDISK 0
-#endif 
+#endif
 #ifndef CONFIG_ROOT_RDONLY
 #define CONFIG_ROOT_RDONLY 1
 #endif
@@ -92,7 +92,7 @@ go:	mov	di,#0x4000-12	! 0x4000 is arbitrary value >= length of
  *	Since single sector reads are slow and out of the question,
  *	we must take care of this by creating new parameter tables
  *	(for the first disk) in RAM.  We will set the maximum sector
- *	count to 36 - the most we will encounter on an ED 2.88.  
+ *	count to 18 - the most we will encounter on an HD 1.44.  
  *
  *	High doesn't hurt.  Low does.
  *
@@ -118,7 +118,7 @@ go:	mov	di,#0x4000-12	! 0x4000 is arbitrary value >= length of
 	pop	di
 	pop	ds
 
-	movb	4(di),*36		! patch sector count
+	movb	4(di),*18		! patch sector count
 
 	seg fs
 	mov	(bx),di
@@ -130,12 +130,12 @@ go:	mov	di,#0x4000-12	! 0x4000 is arbitrary value >= length of
 ! Also cx is 0 from rep movsw above.
 
 load_setup:
-	xor	ah,ah			! reset FDC 
-	xor	dl,dl
-	int 	0x13	
+	xor	ah,ah			! reset driver
+	mov	dl,#0x80
+	int 	0x13
 
-	xor	dx, dx			! drive 0, head 0
-	mov	cl,#0x02		! sector 2, track 0
+	mov	dx,#0x0080		! drive 0x80, head 0
+	mov	cx,#0x0002		! sector 2, track 0
 	mov	bx,#0x0200		! address = 512, in INITSEG
 	mov	ah,#0x02		! service 2, nr of sectors
 	mov	al,setup_sects		! (assume all on head 0, track 0)
@@ -152,48 +152,7 @@ load_setup:
 
 ok_load_setup:
 
-! Get disk drive parameters, specifically nr of sectors/track
-
-#if 0
-
-! bde - the Phoenix BIOS manual says function 0x08 only works for fixed
-! disks.  It doesn't work for one of my BIOS's (1987 Award).  It was
-! fatal not to check the error code.
-
-	xor	dl,dl
-	mov	ah,#0x08		! AH=8 is get drive parameters
-	int	0x13
-	xor	ch,ch
-#else
-
-! It seems that there is no BIOS call to get the number of sectors.  Guess
-! 36 sectors if sector 36 can be read, 18 sectors if sector 18 can be read,
-! 15 if sector 15 can be read.  Otherwise guess 9.
-
-	mov	si,#disksizes		! table of sizes to try
-
-probe_loop:
-	lodsb
-	cbw				! extend to word
-	mov	sectors, ax
-	cmp	si,#disksizes+4
-	jae	got_sectors		! if all else fails, try 9
-	xchg	ax, cx			! cx = track and sector
-	xor	dx, dx			! drive 0, head 0
-	xor	bl, bl
-	mov	bh,setup_sects
-	inc	bh
-	shl	bh,#1			! address after setup (es = cs)
-	mov	ax,#0x0201		! service 2, 1 sector
-	int	0x13
-	jc	probe_loop		! try next value
-
-#endif
-
-got_sectors:
-
 ! Restore es
-
 	mov	ax,#INITSEG
 	mov	es,ax
 
@@ -215,33 +174,10 @@ got_sectors:
 	mov	ax,#SYSSEG
 	mov	es,ax		! segment of 0x010000
 	call	read_it
-	call	kill_motor
 	call	print_nl
-
-! After that we check which root-device to use. If the device is
-! defined (!= 0), nothing is done and the given device is used.
-! Otherwise, one of /dev/fd0H2880 (2,32) or /dev/PS0 (2,28) or /dev/at0 (2,8),
-! depending on the number of sectors we pretend to know we have.
 
 	seg cs
 	mov	ax,root_dev
-	or	ax,ax
-	jne	root_defined
-	seg cs
-	mov	bx,sectors
-	mov	ax,#0x0208		! /dev/ps0 - 1.2Mb
-	cmp	bx,#15
-	je	root_defined
-	mov	al,#0x1c		! /dev/PS0 - 1.44Mb
-	cmp	bx,#18
-	je	root_defined
-	mov	al,#0x20		! /dev/fd0H2880 - 2.88Mb
-	cmp	bx,#36
-	je	root_defined
-	mov	al,#0			! /dev/fd0 - autodetect
-root_defined:
-	seg cs
-	mov	root_dev,ax
 
 ! after that (everything loaded), we jump to
 ! the setup-routine loaded directly after
@@ -285,33 +221,40 @@ ok1_read:
 	mov cx,ax
 	shl cx,#9
 	add cx,bx
-	jnc ok2_read
-	je ok2_read
+	jnc ok2_read  !<64k
+	je ok2_read   !=64k
 	xor ax,ax
 	sub ax,bx
-	shr ax,#9
+	shr ax,#9     !>64k, ax=(64k-bx)>>9
 ok2_read:
+ 	cmp al,#0x28  	!we read no more than 40sectors one time
+        jl read40s
+	mov al,#0x28
+read40s:
 	call read_track
 	mov cx,ax
 	add ax,sread
-	cmp ax,sectors
-	jne ok3_read
-	mov ax,#1
-	sub ax,head
-	jne ok4_read
-	inc track
-ok4_read:
-	mov head,ax
-	xor ax,ax
-ok3_read:
 	mov sread,ax
+	cmp ax,sectors
+	jc  ok3_read    !head need inc?
+	sub ax,sectors  !sread-=63
+	mov sread,ax
+	mov ax,head
+	inc ax
+	mov head,ax     !head++ 
+	cmp ax,heads    !track need inc?
+	jc ok3_read
+	xor ax,ax
+	mov head,ax	!head=0
+	inc track
+ok3_read:
 	shl cx,#9
 	add bx,cx
-	jnc rp_read
+	jnc rp_read   !less than 64k, repeat read
 	mov ax,es
-	add ah,#0x10
+	add ah,#0x10  !es add 0x1000
 	mov es,ax
-	xor bx,bx
+	xor bx,bx     !bx=0
 	jmp rp_read
 
 read_track:
@@ -328,7 +271,7 @@ read_track:
 	mov	ch,dl
 	mov	dx,head
 	mov	dh,dl
-	and	dx,#0x0100
+        mov     dl,#0x80
 	mov	ah,#2
 	
 	push	dx				! save for error dump
@@ -347,7 +290,7 @@ bad_rt:	push	ax				! save error code
 	
 	
 	xor ah,ah
-	xor dl,dl
+	mov dl,#0x80
 	int 0x13
 	
 
@@ -423,29 +366,16 @@ print_digit:
 	loop	print_digit
 	ret
 
-
-/*
- * This procedure turns off the floppy drive motor, so
- * that we enter the kernel in a known state, and
- * don't have to worry about it later.
- */
-kill_motor:
-	push dx
-	mov dx,#0x3f2
-	xor al, al
-	outb
-	pop dx
-	ret
-
 sectors:
-	.word 0
-
-disksizes:
-	.byte 36,18,15,9
+	.word 0x3f 	!63sectors per head
+heads:	.word 0x10	!16heads per track
 
 msg1:
 	.byte 13,10
 	.ascii "Loading"
+.org 446
+part_tbl:
+	.byte 0 	!reserved for partition table, no more than 3 pt.
 
 .org 497
 setup_sects:
