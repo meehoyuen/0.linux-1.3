@@ -77,7 +77,8 @@ static inline int copy_one_pte(pte_t * src, pte_t * dst)
 	return error;
 }
 
-static int move_one_page(struct mm_struct *mm, unsigned long old_addr, unsigned long new_addr)
+/* this is rediculous: move_one_page was linked at 0x100000 with static.*/
+/*static */int move_one_page(struct mm_struct *mm, unsigned long old_addr, unsigned long new_addr)
 {
 	int error = 0;
 	pte_t * src;

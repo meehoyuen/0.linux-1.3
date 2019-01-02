@@ -127,8 +127,21 @@ int main(int argc, char ** argv)
 	file_open(argv[2]);				    /* Copy the setup code */
 	lseek(fd, MINIX_HEADER, SEEK_SET);
 	for (i=0 ; (c=read(fd, buf, sizeof(buf)))>0 ; i+=c )
+	{
+#ifdef __BIG_KERNEL__
+		if(!i)
+		{
+			if (*((int*)(&buf[2])) != 0x53726448 )
+				die("Wrong magic in loader header of 'setup'");
+			if (*((int *)(&buf[6])) < 0x200 )
+				die("Wrong version of loader header of 'setup'");
+			buf[0x11] = 1; /* LOADED_HIGH */
+			*((int *)(&buf[0x14])) = 0x100000; /* code32_start */
+		}
+#endif
 		if (write(1, buf, c) != c)
 			die("Write call failed");
+	}
 	if (c != 0)
 		die("read-error on `setup'");
 	close (fd);
