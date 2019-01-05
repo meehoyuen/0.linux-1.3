@@ -207,7 +207,9 @@ rp_read:
 #ifdef __BIG_KERNEL__
 #define CALL_HIGHLOAD_KLUDGE .word 0x1eff,0x220 ! call far * bootsect_kludge
                 ! NOTE: as86 can't assemble this
-    CALL_HIGHLOAD_KLUDGE    ! this is within setup.S
+    !CALL_HIGHLOAD_KLUDGE    ! this is within setup.S
+	mov ax,es
+    sub ax,#SYSSEG
 #else
     mov ax,es
     sub ax,#SYSSEG

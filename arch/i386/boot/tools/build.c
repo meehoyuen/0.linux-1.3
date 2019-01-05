@@ -135,8 +135,8 @@ int main(int argc, char ** argv)
 				die("Wrong magic in loader header of 'setup'");
 			if (*((int *)(&buf[6])) < 0x200 )
 				die("Wrong version of loader header of 'setup'");
-			buf[0x11] = 1; /* LOADED_HIGH */
-			*((int *)(&buf[0x14])) = 0x100000; /* code32_start */
+			//buf[0x11] = 1; /* LOADED_HIGH */
+			//*((int *)(&buf[0x14])) = 0x100000; /* code32_start */
 		}
 #endif
 		if (write(1, buf, c) != c)

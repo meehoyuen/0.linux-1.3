@@ -26,7 +26,7 @@ vmlinux: piggy.o $(OBJECTS)
 	$(LD) $(ZLINKFLAGS) -o vmlinux $(OBJECTS) piggy.o
 
 bvmlinux: piggy.o $(OBJECTS)
-	$(LD) $(BZLINKFLAGS) -o bvmlinux $(OBJECTS) piggy.o
+	$(LD) $(ZLINKFLAGS) -o bvmlinux $(OBJECTS) piggy.o
 
 ifdef SMP
 
