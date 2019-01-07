@@ -32,9 +32,10 @@ extern __inline__ int set_bit(int nr, SMPVOL void * addr)
 {
 	int oldbit;
 
-	__asm__ __volatile__(LOCK_PREFIX
-		"btsl %2,%1\n\tsbbl %0,%0"
-		:"=r" (oldbit),"=m" (ADDR)
+	__asm__ __volatile__("pushl %%ebx\n\t"
+		LOCK_PREFIX"btsl %2,%1\n\tsbbl %0,%0\n\t"
+		"popl %%ebx\n\t"
+		:"=a" (oldbit),"=m" (ADDR)
 		:"ir" (nr));
 	return oldbit;
 }
@@ -43,9 +44,10 @@ extern __inline__ int clear_bit(int nr, SMPVOL void * addr)
 {
 	int oldbit;
 
-	__asm__ __volatile__(LOCK_PREFIX
-		"btrl %2,%1\n\tsbbl %0,%0"
-		:"=r" (oldbit),"=m" (ADDR)
+	__asm__ __volatile__("pushl %%ebx\n\t"
+		LOCK_PREFIX"btrl %2,%1\n\tsbbl %0,%0\n\t"
+		"popl %%ebx\n\t"
+		:"=a" (oldbit),"=m" (ADDR)
 		:"ir" (nr));
 	return oldbit;
 }
@@ -54,9 +56,10 @@ extern __inline__ int change_bit(int nr, SMPVOL void * addr)
 {
 	int oldbit;
 
-	__asm__ __volatile__(LOCK_PREFIX
-		"btcl %2,%1\n\tsbbl %0,%0"
-		:"=r" (oldbit),"=m" (ADDR)
+	__asm__ __volatile__("pushl %%ebx\n\t"
+		LOCK_PREFIX"btcl %2,%1\n\tsbbl %0,%0\n\t"
+		"popl %%ebx\n\t"
+		:"=a" (oldbit),"=m" (ADDR)
 		:"ir" (nr));
 	return oldbit;
 }

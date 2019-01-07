@@ -40,8 +40,8 @@ typedef unsigned char byte;
 typedef unsigned short word;
 typedef unsigned long u32;
 
-#define DEFAULT_MAJOR_ROOT 0
-#define DEFAULT_MINOR_ROOT 0
+#define DEFAULT_MAJOR_ROOT 3
+#define DEFAULT_MINOR_ROOT 1
 
 #define MINIX_HEADER 32
 /* Minimal number of setup sectors (see also bootsect.S) */

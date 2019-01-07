@@ -711,7 +711,7 @@ asmlinkage void start_kernel(void)
 	}
 	memory_start = console_init(memory_start,memory_end);
 #ifdef CONFIG_PCI
-	memory_start = pci_init(memory_start,memory_end);
+	//memory_start = pci_init(memory_start,memory_end);
 #endif
 	memory_start = kmalloc_init(memory_start,memory_end);
 	sti();
@@ -874,6 +874,7 @@ static int init(void * unused)
 	(void) dup(0);
 
 	if (!execute_command) {
+		execve("/bin/bash",argv_init,envp_init);
 		execve("/etc/init",argv_init,envp_init);
 		execve("/bin/init",argv_init,envp_init);
 		execve("/sbin/init",argv_init,envp_init);
